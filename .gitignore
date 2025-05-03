@@ -1,0 +1,16 @@
+# Ignore Terraform files
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.log
+
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore Docker-related files
+.docker/
+
+# Ignore node_modules (in case you משתמשים ב־Node.js)
+node_modules/
