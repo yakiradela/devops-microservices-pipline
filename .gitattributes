@@ -1,0 +1,3 @@
+devops-microservices-pipline/infrastructure/.terraform/providers/registry.terraform.io/hashicorp/aws/5.97.0/linux_amd64/terraform-provider-aws_v5.97.0_x5 filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.tar.gz filter=lfs diff=lfs merge=lfs -text
