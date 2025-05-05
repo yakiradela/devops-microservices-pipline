@@ -6,13 +6,19 @@
       apt:
         update_cache: yes
         upgrade: yes
-        cache_valid_time: 3600  
+        cache_valid_time: 3600  # עדכון חבילות כל שעה
 
-    - name: Install Docker (latest version for Ubuntu 24.04)
+    - name: Remove any existing Docker packages (if any)
       apt:
         name: docker.io
-        state: present
-        update_cache: yes
+        state: absent
+
+    - name: Install Docker (latest version from Docker's official repo)
+      shell: |
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo tee /etc/apt/trusted.gpg.d/docker.asc
+        echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list
+        sudo apt-get update
+        sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 
     - name: Install kubectl (v1.28.2)
       shell: |
