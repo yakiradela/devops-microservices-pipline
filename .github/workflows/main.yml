@@ -59,9 +59,9 @@ jobs:
     needs: ansible
     steps:
       - name: Login to DockerHub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        run: echo "&{{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Build $ Push Images
+      - name: Build & Push Images
         run: |
           docker build -t yakiradela/auth:latest ./devops-microservices-pipline/services/auth
           docker build -t yakiradela/backend:latest ./devops-microservices-pipline/services/backend
