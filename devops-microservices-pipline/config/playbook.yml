@@ -2,14 +2,17 @@
 - hosts: localhost
   become: yes
   tasks:
-    - name: Install Docker
+    - name: Install Docker (versioned)
       apt:
-        name: docker.io
+        name: docker.io=24.0.5-0ubuntu1~22.04.1  
         state: present
+      register: docker_result
+      failed_when: "'E: ' in docker_result.stderr"
 
-    - name: Install Kubernetes tools
+    - name: Install kubectl (versioned)
       shell: |
-        curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+        KUBECTL_VERSION="v1.28.2"
+        curl -LO https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
         chmod +x ./kubectl
         mv ./kubectl /usr/local/bin/kubectl
 
