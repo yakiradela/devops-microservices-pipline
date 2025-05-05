@@ -2,12 +2,17 @@
 - hosts: localhost
   become: yes
   tasks:
-    - name: Install Docker (versioned for Ubuntu 24.04)
+    - name: Update apt and fix any held packages
       apt:
-        name: docker.io=26.1.3-0ubuntu1~24.04.1
+        update_cache: yes
+        upgrade: yes
+        cache_valid_time: 3600  
+
+    - name: Install Docker (latest version for Ubuntu 24.04)
+      apt:
+        name: docker.io
         state: present
-      register: docker_result
-      failed_when: docker_result.failed and ('stderr' in docker_result and 'E:' in docker_result.stderr)
+        update_cache: yes
 
     - name: Install kubectl (v1.28.2)
       shell: |
