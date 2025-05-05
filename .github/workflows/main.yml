@@ -32,7 +32,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Terraform Init,plan and apply
-        working-directory: devops-microservices-pipline/infrastrucure
+        working-directory: devops-microservices-pipline/infrastructure
         run: |
           terraform init
           terraform plan 
