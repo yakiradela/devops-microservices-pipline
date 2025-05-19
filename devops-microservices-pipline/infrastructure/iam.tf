@@ -68,6 +68,34 @@ resource "aws_iam_policy" "passrole_policy" {
 }
 
 resource "aws_iam_user_policy_attachment" "user_passrole_attach" {
-  user       = "yakiradela"
+  user       = "yakirpip"
   policy_arn = aws_iam_policy.passrole_policy.arn
 }
+
+# ===== EKS Full Access Policy for yakirpip =====
+resource "aws_iam_policy" "eks_full_access" {
+  name        = "EKSFullAccessForUser"
+  description = "Allows user to fully manage EKS"
+  policy      = jsonencode({
+    Version = "2012-10-17",
+    Statement: [
+      {
+        Effect = "Allow",
+        Action = [
+          "eks:*",
+          "ec2:Describe*",
+          "ec2:CreateTags",
+          "iam:GetRole",
+          "iam:PassRole"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_user_policy_attachment" "user_eks_full_access_attach" {
+  user       = "yakirpip"
+  policy_arn = aws_iam_policy.eks_full_access.arn
+}
+
