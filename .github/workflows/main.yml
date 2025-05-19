@@ -1,5 +1,5 @@
 name: main pipeline
- 
+
 on:
   push:
     branches: [main]
@@ -81,6 +81,7 @@ jobs:
           docker build -t yakiradela/auth:latest ./devops-microservices-pipline/services/auth
           docker build -t yakiradela/backend:latest ./devops-microservices-pipline/services/backend
           docker build -t yakiradela/frontend:latest ./devops-microservices-pipline/services/frontend
+
           docker push yakiradela/auth:latest
           docker push yakiradela/backend:latest
           docker push yakiradela/frontend:latest
@@ -102,13 +103,4 @@ jobs:
 
       - name: Install eksctl
         run: |
-          curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/v0.110.0/eksctl_Linux_amd64.tar.gz" | tar xz -C /tmp
-          sudo mv /tmp/eksctl /usr/local/bin
-
-      - name: Update kubeconfig
-        run: |
-          aws eks update-kubeconfig --name ${{ env.CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
-
-      - name: Deploy to EKS
-        run: |
-          kubectl apply -f devops-microservices-pipline/k8s/deployment.yaml
+          curl --silent --location "https://github.com/weave
