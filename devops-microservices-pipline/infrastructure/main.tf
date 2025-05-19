@@ -4,7 +4,7 @@ provider "aws" {
 
 resource "aws_eks_cluster" "main" {
   name     = var.cluster_name
-  role_arn = var.eks_role_arn
+  role_arn = aws_iam_role.eks_cluster_role.arn
 
   vpc_config {
     subnet_ids = var.subnet_ids
@@ -14,7 +14,7 @@ resource "aws_eks_cluster" "main" {
 resource "aws_eks_node_group" "default" {
   cluster_name    = aws_eks_cluster.main.name
   node_group_name = "default"
-  node_role_arn   = var.worker_node_role_arn
+  node_role_arn   = aws_iam_role.worker_node_role.arn
   subnet_ids      = var.subnet_ids
 
   scaling_config {
@@ -24,6 +24,5 @@ resource "aws_eks_node_group" "default" {
   }
 
   instance_types = ["t3.medium"]
-  ami_type       = "AL2_x86_64"  # Amazon Linux 2
+  ami_type       = "AL2_x86_64"
 }
-
