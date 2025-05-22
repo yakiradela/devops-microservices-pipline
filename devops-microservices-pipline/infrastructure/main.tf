@@ -2,6 +2,7 @@ provider "aws" {
   region = var.region
 }
 
+# EKS Cluster
 resource "aws_eks_cluster" "main" {
   name     = var.cluster_name
   role_arn = aws_iam_role.eks_cluster_role.arn
@@ -14,11 +15,15 @@ resource "aws_eks_cluster" "main" {
   }
 }
 
+# Node Group
 resource "aws_eks_node_group" "default" {
   cluster_name    = aws_eks_cluster.main.name
   node_group_name = "default"
   node_role_arn   = aws_iam_role.worker_node_role.arn
-  subnet_ids      = var.subnet_ids
+  subnet_ids = [
+    aws_subnet.public_1.id,
+    aws_subnet.public_2.id
+  ]
 
   scaling_config {
     desired_size = 2
